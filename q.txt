@@ -1,0 +1,3 @@
+fields @timestamp, @log, @message
+| filter @message like /ca7c04f1/ or @message like /dd28e5bd/
+| sort @timestamp asc
