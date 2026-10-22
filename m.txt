@@ -1,0 +1,7 @@
+cd ~/workspace/mock-api-service
+git status
+git fetch origin
+git checkout -b feature/it2-c10-c13-fix origin/v2/pngn/develop
+cp ~/workspace/mock-api-service-v2-pngn-release/app/src/dxsuite/it2/data/7026/C10.json app/src/dxsuite/it2/data/7026/
+cp ~/workspace/mock-api-service-v2-pngn-release/app/src/dxsuite/it2/data/7026/C13.json app/src/dxsuite/it2/data/7026/
+git diff
