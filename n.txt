@@ -1,0 +1,5 @@
+Get-ChildItem *.res | Sort-Object Name | ForEach-Object {
+  $f = (Get-Content $_.FullName -Encoding UTF8)[1] -split "`t"
+  $t = @(); for ($i = 0; $i -lt $f.Count; $i++) { if ($f[$i] -ne '0') { $t += "$($i+1)=[$($f[$i])]" } }
+  "$($_.BaseName)  count=$($f.Count)  " + ($t -join ' ')
+}
