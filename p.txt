@@ -1,0 +1,5 @@
+Get-ChildItem *.res | Sort-Object Name | ForEach-Object {
+  $f = (Get-Content $_.FullName -Encoding UTF8)[1] -split "`t"
+  $t = @(); for ($i = 0; $i -lt $f.Count; $i++) { if ($f[$i] -ne '0' -and $f[$i] -ne '') { $t += "$($i+1)=$($f[$i])" } }
+  [pscustomobject]@{ Case = $_.BaseName; P7 = $f[6]; P8 = $f[7]; P22 = $f[21]; P25 = $f[24]; P28 = $f[27]; P30 = $f[29]; P42 = $f[41]; P43 = $f[42]; P44 = $f[43]; NotZero = ($t -join ' ') }
+} | Format-Table -AutoSize
