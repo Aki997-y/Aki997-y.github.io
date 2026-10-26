@@ -9,7 +9,7 @@ $map = @(); $i = 0
 Get-ChildItem -File | Where-Object { $_.Extension -match '^\.(jpg|jpeg|png)$' } | Sort-Object Name | ForEach-Object {
   $i++; $src = $_
   $name = 'ICCSend_20261026200000{0:D3}' -f $i
-  $img = 'X9993{0:D3}01X1.jpg' -f $i
+  $img = 'X99930{0:D3}01X1.jpg' -f $i
   $work = Join-Path $out $name; New-Item -ItemType Directory -Force $work | Out-Null
   $dst = Join-Path $work $img
   if ($src.Extension -eq '.png') { $b = [Drawing.Image]::FromFile($src.FullName); $b.Save($dst, [Drawing.Imaging.ImageFormat]::Jpeg); $b.Dispose() } else { Copy-Item $src.FullName $dst }
