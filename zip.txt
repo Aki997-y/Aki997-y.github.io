@@ -1,17 +1,23 @@
+Add-Type -AssemblyName System.Drawing
 $tpl = Get-ChildItem *.lst | Select-Object -First 1
 $raw = [IO.File]::ReadAllText($tpl.FullName, [Text.Encoding]::UTF8)
 $nl = if ($raw -match "`r`n") { "`r`n" } else { "`n" }
 $lines = $raw -split "`r?`n"
 $out = Join-Path $PWD 'zip_out'; New-Item -ItemType Directory -Force $out | Out-Null
 $enc = New-Object Text.UTF8Encoding $false
-$i = 0
+$map = @(); $i = 0
 Get-ChildItem -File | Where-Object { $_.Extension -match '^\.(jpg|jpeg|png)$' } | Sort-Object Name | ForEach-Object {
-  $i++; $img = $_.Name; $name = 'ICCSend_20261026200000{0:D3}' -f $i
+  $i++; $src = $_
+  $name = 'ICCSend_20261026200000{0:D3}' -f $i
+  $img = 'X9993{0:D3}01X1.jpg' -f $i
   $work = Join-Path $out $name; New-Item -ItemType Directory -Force $work | Out-Null
-  Copy-Item $_.FullName $work
+  $dst = Join-Path $work $img
+  if ($src.Extension -eq '.png') { $b = [Drawing.Image]::FromFile($src.FullName); $b.Save($dst, [Drawing.Imaging.ImageFormat]::Jpeg); $b.Dispose() } else { Copy-Item $src.FullName $dst }
   $new = $lines | ForEach-Object { $c = $_ -split "`t"; if ($c[-1] -match '\.(jpg|jpeg|png)$') { $c[-1] = $img }; $c -join "`t" }
   [IO.File]::WriteAllText((Join-Path $work "$name.lst"), ($new -join $nl), $enc)
   Compress-Archive -Path "$work\*" -DestinationPath (Join-Path $out "$name.zip") -Force
   Remove-Item $work -Recurse -Force
-  "$name.zip  <-  $img"
+  $map += "$name.zip`t$img`t$($src.Name)"
 }
+$map | Set-Content (Join-Path $out 'mapping.txt') -Encoding UTF8
+$map
