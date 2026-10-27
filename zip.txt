@@ -16,7 +16,7 @@ Get-ChildItem -File | Where-Object { $_.Extension -match '^\.(jpg|jpeg|png)$' } 
   $dst = Join-Path $work $img
   if ($src.Extension -eq '.png') { $b = [Drawing.Image]::FromFile($src.FullName); $b.Save($dst, [Drawing.Imaging.ImageFormat]::Jpeg); $b.Dispose() } else { Copy-Item $src.FullName $dst }
   $new = $lines | ForEach-Object { $c = $_ -split "`t"; if ($c[-1] -match '\.(jpg|jpeg|png)$') { $c[-1] = $img }; $c -join "`t" }
-  [IO.File]::WriteAllText((Join-Path $work "$name.lst"), ($new -join $nl), $enc)
+  [IO.File]::WriteAllText((Join-Path $work "$name.lst"), (($new -join $nl).TrimEnd("`r", "`n")), $enc)
   Compress-Archive -Path "$work\*" -DestinationPath (Join-Path $out "$name.zip") -Force
   Remove-Item $work -Recurse -Force
   $map += "$name.zip`t$img`t$($src.Name)"
