@@ -1,5 +1,6 @@
 Add-Type -AssemblyName System.Drawing
 $tpl = Get-ChildItem -File -Filter *.lst | Select-Object -First 1
+if (-not $tpl) { Write-Host "ERROR: .lst not found here. Open PowerShell in the IT3_zip folder." -ForegroundColor Red; return }
 $bytes = [IO.File]::ReadAllBytes($tpl.FullName)
 $bom = ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)
 $raw = [Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF)
