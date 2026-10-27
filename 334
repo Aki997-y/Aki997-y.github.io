@@ -1,1 +1,0 @@
-$f=(Get-Content (Get-ChildItem -Recurse -Filter *.res | ? {$_.Directory.Name -eq 'No.17'}).FullName -Encoding UTF8)[1] -split "`t"; "28=[$($f[27])] 30=[$($f[29])] 42=[$($f[41])]"
