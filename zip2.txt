@@ -8,7 +8,8 @@ $nl = if ($raw -match "`r`n") { "`r`n" } else { "`n" }
 $cols = (($raw -split "`r?`n") | Where-Object { $_ -ne '' } | Select-Object -First 1) -split "`t"
 $out = Join-Path $PWD 'zip_out'; New-Item -ItemType Directory -Force $out | Out-Null
 $enc = New-Object Text.UTF8Encoding $bom
-$map = @("ZIP`tNewName`tOriginalName"); $b = 0
+$map = @("ZIP`tNewName`tOriginalName"); $b = 0; $g = 0
+if ($cols[0] -match '^(\d{4}-\d{2}-\d{2}-\d{2}\.\d{2}\.\d{2})(.*)$') { $t0 = [datetime]::ParseExact($Matches[1], 'yyyy-MM-dd-HH.mm.ss', $null); $tail = $Matches[2] } else { Write-Host "WARNING: first column format not recognized, kept as is" -ForegroundColor Yellow; $t0 = $null }
 Get-ChildItem -Directory | Where-Object { $_.Name -ne 'zip_out' } | Sort-Object Name | ForEach-Object {
   $b++; $dir = $_
   $name = 'ICCSend_20261027100000{0:D3}' -f $b
@@ -19,7 +20,7 @@ Get-ChildItem -Directory | Where-Object { $_.Name -ne 'zip_out' } | Sort-Object 
     $img = 'X9993{0}{1:D3}01X1.jpg' -f $b, $i
     $dst = Join-Path $work $img
     if ($src.Extension -eq '.png') { $p = [Drawing.Image]::FromFile($src.FullName); $p.Save($dst, [Drawing.Imaging.ImageFormat]::Jpeg); $p.Dispose() } else { Copy-Item $src.FullName $dst }
-    $c = $cols.Clone(); $c[-1] = $img; $rows += ($c -join "`t")
+    $c = $cols.Clone(); $c[-1] = $img; if ($t0) { $c[0] = $t0.AddSeconds($g).ToString('yyyy-MM-dd-HH.mm.ss') + $tail }; $g++; $rows += ($c -join "`t")
     $map += "$name.zip`t$img`t$($dir.Name)\$($src.Name)"
   }
   [IO.File]::WriteAllText((Join-Path $work "$name.lst"), ($rows -join $nl), $enc)
