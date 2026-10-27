@@ -1,10 +1,12 @@
 Add-Type -AssemblyName System.Drawing
 $tpl = Get-ChildItem *.lst | Select-Object -First 1
-$raw = [IO.File]::ReadAllText($tpl.FullName, [Text.Encoding]::UTF8)
+$bytes = [IO.File]::ReadAllBytes($tpl.FullName)
+$bom = ($bytes.Length -ge 3 -and $bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF)
+$raw = [Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF)
 $nl = if ($raw -match "`r`n") { "`r`n" } else { "`n" }
 $lines = $raw -split "`r?`n"
 $out = Join-Path $PWD 'zip_out'; New-Item -ItemType Directory -Force $out | Out-Null
-$enc = New-Object Text.UTF8Encoding $false
+$enc = New-Object Text.UTF8Encoding $bom
 $map = @(); $i = 0
 Get-ChildItem -File | Where-Object { $_.Extension -match '^\.(jpg|jpeg|png)$' } | Sort-Object Name | ForEach-Object {
   $i++; $src = $_

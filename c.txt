@@ -1,0 +1,8 @@
+Get-ChildItem -Recurse -Filter *.lst | ForEach-Object {
+  $b = [IO.File]::ReadAllBytes($_.FullName)
+  $bom = ($b.Length -ge 3 -and $b[0] -eq 0xEF -and $b[1] -eq 0xBB -and $b[2] -eq 0xBF)
+  $t = [Text.Encoding]::UTF8.GetString($b).TrimStart([char]0xFEFF)
+  $rows = @($t -split "`r?`n" | Where-Object { $_ -ne '' })
+  "{0}  BOM={1}  CRLF={2}  LastNewline={3}  Rows={4}  Tabs={5}" -f $_.Name, $bom, ($t -match "`r`n"), ($t -match "`n$"), $rows.Count, ($rows[0].Split("`t").Count - 1)
+  "   " + ($rows[0] -replace "`t", ' | ')
+}
