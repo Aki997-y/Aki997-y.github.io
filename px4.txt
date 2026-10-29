@@ -1,0 +1,5 @@
+SOURCE "/aws/containerinsights/dcl-pngn-tes-s-main/application" START=2026-10-28T06:00:00.000Z END=2026-10-28T08:30:00.000Z |
+fields @timestamp, kubernetes.container_name, @message
+| filter kubernetes.container_name like /proxy/
+| sort @timestamp asc
+| limit 10000
