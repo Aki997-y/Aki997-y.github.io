@@ -1,0 +1,4 @@
+fields @timestamp, kubernetes.pod_name, @message
+| filter kubernetes.pod_name like /proxy/
+| sort @timestamp asc
+| limit 10000
