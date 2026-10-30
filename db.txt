@@ -1,3 +1,3 @@
-\dt *.*zip*
+set search_path to api, public;
 
-select zip_id, zipped_file_name, mid_file_create_flag from SCHEMA.t_zip_unit order by 1 desc limit 5;
+select zip_id, zipped_file_name, mid_file_create_flag from t_zip_unit order by 1 desc limit 5;
