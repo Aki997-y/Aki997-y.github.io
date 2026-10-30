@@ -1,0 +1,3 @@
+filter log.level = "ERROR" and ispresent(log.details.error_code)
+| stats count(*) as cnt, min(@timestamp) as first, max(@timestamp) as last by kubernetes.container_name, log.details.error_code
+| sort cnt desc

@@ -1,0 +1,6 @@
+filter @message like /Name correlation LLM request count summary|for OCR image verification/
+| stats sum(strcontains(@message, "Name correlation LLM request count summary")) as name_cnt, sum(strcontains(@message, "for OCR image verification")) as ocr_cnt
+
+B: START=2026-10-30T01:50:00.000Z END=2026-10-30T02:45:00.000Z
+C: START=2026-10-30T03:05:00.000Z END=2026-10-30T03:45:00.000Z
+D: START=2026-10-30T04:20:00.000Z END=2026-10-30T05:00:00.000Z

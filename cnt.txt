@@ -1,0 +1,3 @@
+filter @message like /Name correlation LLM request count summary|for OCR image verification/
+| stats sum(strcontains(@message, "Name correlation LLM request count summary")) as name_cnt, sum(strcontains(@message, "for OCR image verification")) as ocr_cnt by bin(5m) as t
+| sort t asc

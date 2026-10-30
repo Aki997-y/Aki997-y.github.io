@@ -1,0 +1,8 @@
+it2_work/seido_mock 配下のJSON（名前カナチェック精度評価用のMock 10組）を、mock-api-serviceにIT2ケースとして追加してください。
+
+1. 各JSONの形式が既存の app/src/dxsuite/it2/data/7026/C14.json と同じ（DXSuite応答の全項目）か確認。足りない項目があれば、C14.jsonをベースに名前項目（患者名・受取人・銀行名義人のカナ／漢字）だけ差し替えた形で作成
+2. ケース名はK01〜K10とし、app/src/dxsuite/it2/data/7026/K01.json〜K10.json として配置（元ファイル名との対応表も出力）
+3. CASE_IMAGE_MAPPING で K01〜K10 を test_images/ocr_test_04.jpg に紐づける（既存ケースは変更しない）
+4. it2_work/input_zip に、C14の投入ZIPと同じ構成（画像＋.lst、FormID 7026）でK01〜K10の投入ZIPを作成。ZIP名・.lst名は既存と重複しない名前にする
+5. 回帰テストとRuffを実行
+6. 変更ファイル一覧と、K01〜K10それぞれの名前項目（カナ／漢字）の値の一覧を表で表示。commit・pushはまだしない

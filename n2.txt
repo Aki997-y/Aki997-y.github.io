@@ -1,0 +1,5 @@
+Get-ChildItem -Recurse -Filter *.res | Sort-Object FullName | ForEach-Object {
+  $f = (Get-Content $_.FullName -Encoding UTF8)[1] -split "`t"
+  $t = @(); for ($i = 0; $i -lt $f.Count; $i++) { if ($f[$i] -ne '0' -and $f[$i] -ne '') { $t += "$($i+1)=$($f[$i])" } }
+  "$($_.Directory.Name)  $($_.LastWriteTime.ToString('HH:mm'))  $($_.Name)  42=[$($f[41])]  " + ($t -join '  ')
+}

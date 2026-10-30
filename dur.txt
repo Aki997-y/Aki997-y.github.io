@@ -1,0 +1,3 @@
+filter ispresent(`log.details.duration(s)`)
+| stats count(*) as cnt, avg(`log.details.duration(s)`) as avg_s, max(`log.details.duration(s)`) as max_s by kubernetes.container_name, substr(log.message, 0, 30) as msg
+| sort avg_s desc

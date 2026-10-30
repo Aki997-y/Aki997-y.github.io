@@ -1,0 +1,3 @@
+filter kubernetes.pod_name like /proxy-ledger/
+| stats count(*) as cnt by bin(10s) as t, kubernetes.pod_name
+| sort t asc

@@ -1,0 +1,2 @@
+stats count(*) as cnt by kubernetes.pod_name
+| sort cnt desc

@@ -1,0 +1,4 @@
+fields @timestamp, @log, @message
+| filter @message like /ERROR|Error|Exception|Traceback|WARN/
+| sort @timestamp desc
+| limit 200

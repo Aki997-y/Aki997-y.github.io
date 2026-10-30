@@ -1,0 +1,4 @@
+fields @timestamp, @message
+| filter @message like /ERROR|Exception|Traceback|failed|失敗/
+| stats count(*) as errors by bin(5m)
+| sort bin(5m) asc

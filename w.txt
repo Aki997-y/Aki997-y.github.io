@@ -1,0 +1,3 @@
+filter log.level != "INFO"
+| stats count(*) as cnt by kubernetes.container_name, log.level, log.message
+| sort cnt desc
