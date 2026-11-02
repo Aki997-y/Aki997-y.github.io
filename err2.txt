@@ -1,0 +1,4 @@
+filter log.level = "ERROR"
+| fields @timestamp, kubernetes.container_name, log.message
+| sort @timestamp desc
+| limit 50
