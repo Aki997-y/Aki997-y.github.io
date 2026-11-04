@@ -1,2 +1,0 @@
-stats count(*) as cnt, min(@timestamp) as first, max(@timestamp) as last by kubernetes.container_name, kubernetes.pod_name
-| sort kubernetes.container_name asc, first asc
