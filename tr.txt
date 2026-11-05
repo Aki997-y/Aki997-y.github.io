@@ -1,0 +1,4 @@
+SOURCE "/aws/containerinsights/dcl-pngn-tes-s-main/application" START=2026-11-05T02:40:00.000Z END=2026-11-05T03:10:00.000Z |
+filter @message like /6aebf0902d66df07d2d418c53a2c5d8c/
+| fields @timestamp, kubernetes.container_name, log.level, log.message, @message
+| sort @timestamp asc
