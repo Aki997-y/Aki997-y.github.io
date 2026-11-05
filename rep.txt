@@ -1,1 +1,5 @@
-99の原因候補：ledger-reading-processで11:59に「VisibilityTimeout」1件。対象画像10枚（A309095527011〜020）で、12:05便の99件数（10件）と一致します。
+本日の性能試験で12:05便に出た99エラー（診断書10件）について、CloudWatchで原因と思われるログを確認しました。
+・ledger-reading-process：11:59:10「VisibilityTimeout reached during main processing.」（WARNING）1件
+・対象：reception_id acbe7c31-7060-4974-9606-8db31ea04779、画像10枚（A309095527011〜A309095527020）
+・画像枚数が99件数（10件）と一致するため、帳票読取の処理中にSQSの可視性タイムアウトを超えたことが原因と考えられます。
+なお、試験時間中にSQS・プロキシ接続・503等のエラーは出ていません。
