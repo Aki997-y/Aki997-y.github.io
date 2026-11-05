@@ -1,0 +1,10 @@
+SOURCE "/aws/containerinsights/dcl-pngn-tes-s-main/application" START=2026-11-05T02:45:00.000Z END=2026-11-05T03:10:00.000Z |
+filter log.level in ["ERROR","WARNING","CRITICAL"] and kubernetes.container_name not in ["alertmanager","personal-information-delete-batch"] and not (@message like /郵便番号|住所|response format is invalid/)
+| stats count(*) as cnt, min(@timestamp) as first, max(@timestamp) as last by kubernetes.container_name, log.level, log.details.error_code, substr(log.message, 0, 80) as msg
+| sort first asc
+
+==== (B) if (A) is empty: keywords in all logs ====
+SOURCE "/aws/containerinsights/dcl-pngn-tes-s-main/application" START=2026-11-05T02:45:00.000Z END=2026-11-05T03:10:00.000Z |
+filter @message like /(?i)timeout|exception|traceback|visibility|"99"|error_flag/ and kubernetes.container_name not in ["alertmanager","personal-information-delete-batch"]
+| stats count(*) as cnt, min(@timestamp) as first, max(@timestamp) as last by kubernetes.container_name, substr(@message, 0, 100) as msg
+| sort cnt desc
