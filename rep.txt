@@ -1,4 +1,3 @@
-暖機運転分のログを確認しました（11:05〜）。
-・名前カナ相関／画像OCRのログ：出力あり（各65件）
-・SQS・プロキシ接続・503等のエラー：なし
-・画像OCRの「response format is invalid」（LLM応答の形式不正、既存フラグ保持）のWARNINGが5件（65件中）出ています。IT2時にも出ていた事象です。
+99エラーの原因候補のログがありました。
+・ledger-reading-process：11:59:10「VisibilityTimeout reached during main processing.」（WARNING）1件
+　→ 時間帯的に12:05便（診断書10件が99）に該当する可能性があります。
