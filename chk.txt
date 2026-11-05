@@ -1,0 +1,19 @@
+==== (1) known errors / warnings by error_code ====
+filter ispresent(log.details.error_code) or @message like /response format is invalid|judgment is undetermined/
+| stats count(*) as cnt, min(@timestamp) as first, max(@timestamp) as last by kubernetes.container_name, log.level, log.details.error_code, substr(log.message, 0, 60) as msg
+| sort cnt desc
+
+==== (2) all ERROR / WARNING ====
+filter log.level = "ERROR" or log.level = "WARNING"
+| stats count(*) as cnt by kubernetes.container_name, log.level, log.message
+| sort cnt desc
+
+==== (3) feature is running (per 5 min) ====
+filter @message like /Name correlation LLM request count summary|for OCR image verification/
+| stats sum(strcontains(@message, "Name correlation LLM request count summary")) as name_cnt, sum(strcontains(@message, "for OCR image verification")) as ocr_cnt by bin(5m) as t
+| sort t asc
+
+==== (4) ERROR per 5 min ====
+filter log.level = "ERROR" and kubernetes.container_name != "alertmanager"
+| stats count(*) as cnt by bin(5m) as t
+| sort t asc
