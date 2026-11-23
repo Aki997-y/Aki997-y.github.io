@@ -1,0 +1,30 @@
+==== 状態を見る ====
+git status                     # 今どのブランチか、変更したファイルは何か
+git branch                     # ローカルのブランチ一覧（*が今いるブランチ）
+git branch -r                  # リモートのブランチ一覧
+git log --oneline -10          # 直近10件のコミット
+git diff                       # まだaddしていない変更の中身
+git diff --stat                # 変更したファイルの一覧だけ
+
+==== 最新を取ってくる ====
+git fetch origin               # リモートの最新情報を取得（手元のファイルは変わらない）
+git pull                       # 今のブランチを最新にする（fetch＋取り込み）
+
+==== ブランチを切り替える／作る ====
+git checkout v2/pngn/develop                         # 既存ブランチに切り替え
+git checkout -b feature/xxxx origin/v2/pngn/develop  # developから新しい作業ブランチを作る
+
+==== 変更を保存して送る ====
+git add -A                     # 変更を全部「コミット予定」に入れる
+git commit -m "変更内容を短く"   # 記録する
+git push -u origin feature/xxxx # GitLabへ送る（初回は-u）
+
+==== 取り消し ====
+git restore ファイル名          # addする前の変更を元に戻す
+git restore --staged ファイル名 # addを取り消す（変更は残る）
+git stash                      # 変更を一時退避（ブランチを切り替えたいとき）
+git stash pop                  # 退避した変更を戻す
+
+==== 複数リポジトリを親フォルダから操作 ====
+git -C リポジトリ名 status
+git -C リポジトリ名 checkout v2/pngn/develop
