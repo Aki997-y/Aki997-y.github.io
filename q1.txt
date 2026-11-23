@@ -1,0 +1,36 @@
+==== [A] 最新のログを見る ====
+fields @timestamp, kubernetes.container_name, log.level, log.message
+| sort @timestamp desc
+| limit 100
+
+==== [B] キーワードで探す（〇〇を書き換える） ====
+fields @timestamp, kubernetes.container_name, log.level, log.message
+| filter @message like /〇〇/
+| sort @timestamp desc
+| limit 100
+
+==== [C] ERROR/WARNINGだけ見る（ノイズ除外） ====
+fields @timestamp, kubernetes.container_name, log.level, log.message, log.details.error_code
+| filter log.level in ["ERROR", "WARNING"]
+| filter kubernetes.container_name != "alertmanager"
+| sort @timestamp desc
+| limit 200
+
+==== [D] エラーを種類ごとに件数集計 ====
+filter log.level in ["ERROR", "WARNING"]
+| stats count(*) as cnt, min(@timestamp) as first, max(@timestamp) as last by kubernetes.container_name, log.level, log.details.error_code
+| sort cnt desc
+
+==== [E] 1つのIDの流れを追う（〇〇にzip_id等を入れる） ====
+fields @timestamp, kubernetes.container_name, log.level, log.message
+| filter @message like /〇〇/
+| sort @timestamp asc
+
+==== [F] 5分ごとの件数（キーワードの出方の推移） ====
+filter @message like /〇〇/
+| stats count(*) as cnt by bin(5m) as t
+| sort t asc
+
+==== [G] どのコンテナがログを多く出しているか ====
+stats count(*) as cnt by kubernetes.container_name
+| sort cnt desc
