@@ -1,0 +1,3 @@
+New-Item -ItemType Directory -Force ..\dilsend_lst | Out-Null
+Get-ChildItem *.zip | ForEach-Object { $d = Join-Path $env:TEMP ("z_" + $_.BaseName); Expand-Archive $_.FullName $d -Force; Get-ChildItem $d -Recurse -Filter "DILSend_*.lst" | Copy-Item -Destination ..\dilsend_lst; Remove-Item $d -Recurse -Force }
+(Get-ChildItem ..\dilsend_lst).Count
