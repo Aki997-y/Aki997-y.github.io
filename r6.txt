@@ -1,0 +1,8 @@
+河合さん
+WBS92行目（全社周知26-030 Apache HTTP Server）、93行目（全社周知26-022 Node.js）の調査結果です。
+
+・ライブラリミドルウェア調査を確認したところ、DILのコンテナイメージ（python:3.12-slim、tomcat等）にApache HTTP Server、Node.jsの使用はありませんでした。
+・手元で確認できるリポジトリ（image-reception、st-mid-file-create-process、llm-ocr-service等）のDockerfile・設定ファイルも確認し、httpd／mod_http2、Node.jsの使用はありませんでした。
+
+以上より、いずれもDILでは影響なしと考えます。
+確認できていないリポジトリもあるため、追加で確認が必要なものがあれば教えてください。
