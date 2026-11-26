@@ -1,0 +1,1 @@
+grep -rIniE "httpd|apache2|mod_h2|mod_http2|FROM node|nodejs" ~/workspace --include="Dockerfile*" --include="*.yml" --include="*.yaml" --include="*.conf" --include="*.json" --include="*.toml" | grep -v node_modules | head -30
