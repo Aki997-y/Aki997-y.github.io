@@ -1,0 +1,20 @@
+河合さん
+調査した資材は以下です。
+
+■資料
+・ライブラリミドルウェア調査.xlsx（全シート）
+・全社セキュリティ周知管理簿.xlsx（26-030、26-022）
+
+■リポジトリ（作業用EC2上にあるもの）
+・file-reception-process
+・image-reception
+・mid-file-transfer-batch
+・st-mid-file-create-process（feature-add-ocr-image-verification-newブランチ、developブランチ含む）
+・llm-ocr-service
+・mock-api-service（テスト用モック）
+
+■確認したファイル・キーワード
+・Dockerfile、*.yml／*.yaml、*.conf、*.json、*.toml
+・httpd、apache2、mod_h2、mod_http2、FROM node、nodejs
+
+上記以外のリポジトリは未確認のため、確認が必要なものがあれば教えてください。
