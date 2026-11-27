@@ -1,0 +1,19 @@
+河合さん
+Node.js（全社周知26-022）について、オンライン側の資材も確認しました。
+
+■確認対象（GitLab digitalclaim-src ap01〜ap03、機能配置図のオンライン側サービス）
+・ap01：external-service、external-image-reading-process、external-computerization-process、ust-reception-process、ust-mid-file-create-service、ust-mid-file-workflow-process、各error-entry-function
+・ap02：create-id-service、adjudication-ledger-service、create-bill-service、classify-ledger-*、read-receipt-*、read-statement-*、code-*
+・ap03：token-auth-service、proxy-classifyledger-service、proxy-receipt-service、proxy-statement-service、proxy-code-service、common-service、create-file-service
+・スキャン側（前回分）：file-reception-process、image-reception、mid-file-transfer-batch、st-mid-file-create-process
+
+■確認方法
+・masterブランチ（masterがないリポジトリはデフォルトブランチ）
+・Dockerfile、*.yml／*.yaml、*.json、*.toml、*.sh、Jenkinsfile
+・package.json、.nvmrc の有無、FROM node／nodejs／setup-node 等の記載
+
+■結果
+・いずれのリポジトリでもNode.jsの使用はありませんでした。
+　以上より、DILではNode.jsの脆弱性（26-022）の影響はないと考えます。
+
+※masterブランチがなくデフォルトブランチで確認したもの：adjudication-ledger-service、classify-ledger-process/service、code-process/service、create-bill-service、create-id-service、external-computerization-process、external-image-reading-process、external-service、proxy-code-service、token-auth-service
